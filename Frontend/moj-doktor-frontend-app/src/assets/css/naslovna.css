@@ -1,0 +1,73 @@
+.naslovna-header{
+  margin: 10px 3% 50px 3%;
+  font-family: 'Montserrat';
+  font-style: italic;
+}
+
+.naslovna-header h2{
+  margin: 5px;
+  float: left;
+  font-size: 20px;
+  color: rgb(128, 126, 126);
+}
+
+.header-elementi{
+  float: right;
+  height: 40px;
+}
+
+.naslovna-sadrzaj {
+  width: 70%;
+  margin-left: 10%;
+  margin-bottom: 5%;
+}
+.naslovna-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 4px;
+  row-gap: 25px;
+}
+.kartica {
+  background-color: white;
+  padding: 0px;
+  box-shadow: 0 5px 20px rgb(67, 75, 71);
+  text-align: center;
+  vertical-align: middle;
+  min-height: 300px;
+  width: 300px;
+  margin: 0px;
+  padding: 10% 20% 10% 20%;
+}
+
+.kartica:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.705);
+  z-index: 10;
+}
+
+.ikona {
+  width: 100px;
+  height: 100px;
+  margin: 20px;
+}
+.naziv {
+  color: #001529;
+  font-size: 20px;
+}
+.opis-kartice {
+  color: #001529;
+  font-size: 16px;
+}
+
+@media only screen and (max-width: 1300px) {
+  .naslovna-grid {
+      grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .naslovna-grid {
+      grid-template-columns: auto;
+  }
+}

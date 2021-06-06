@@ -1,0 +1,121 @@
+.blok {
+  height: 600px;
+  width: 60%;
+  background-color: white;
+  padding: 0px;
+  box-shadow: 0 5px 20px rgb(67, 75, 71);
+  display: inline-block;
+}
+
+.opis-registracija {
+  margin: 0px;
+  background-color: #001529;
+  color: white;
+  width: 40%;
+  height: 100%;
+  text-align: left;
+  padding: 0px;
+  display: table-cell;
+  float: left;
+}
+.opis-prijava {
+  margin: 0px;
+  background-color: #001529;
+  color: white;
+  width: 50%;
+  height: 100%;
+  text-align: left;
+  padding: 0px;
+  display: inline-block;
+  float: left;
+}
+
+.opis h4 {
+  color: white;
+  padding-top: 50px;
+  padding-left: 50px;
+  margin: 0px;
+  font-size: 14px;
+  text-align: left;
+  font-style: italic;
+  font-family: "Montserrat", sans-serif;
+}
+.poruka {
+  margin: 10px;
+  text-align: center;
+}
+
+.poruka p {
+  font-size: 18px;
+}
+.forma {
+  margin: 0px;
+  color: #001529;
+  width: 50%;
+  height: 100%;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.forma h2{
+  color: #001529;
+  margin-top: 90px;
+  margin-bottom: 40px;
+}
+
+.poruka h2{
+  color: white;
+  margin-bottom: 10px;
+}
+
+.red{
+  margin: 0px;
+  padding: 20px;
+  text-align: center;
+}
+.red h2{
+  color: #001529;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+.red input{
+  border: 1px solid #001529;
+  border-radius: 10px;
+  padding: 8px 40px 8px 40px;
+  color: #001529;
+  font-size: 12px;
+  width: 32%;
+  margin-bottom: 10px;
+}
+
+.red button{
+  width: 20%;
+  font-size: 12px;
+}
+.nestajuce{
+  visibility:hidden;
+}
+.red button:hover{
+  font-size: 14px;
+  width: 23%;
+}
+@media only screen and (max-width: 1000px) {
+  .opis{
+    display: none;
+  }
+  .prijavaPage{
+    width: 400px;
+  }
+  .forma{
+    margin: auto;
+  }
+}
+@media only screen and (max-width: 1500px) {
+.registracijaPage{
+  width: 600px;
+}
+.blok{
+  overflow-y: scroll;
+}
+}

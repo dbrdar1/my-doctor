@@ -1,0 +1,31 @@
+syntax = "proto3";
+option java_multiple_files = true;
+package ba.unsa.etf.grpc;
+
+message ActionRequest {
+    string timestamp_akcije = 1;
+    string naziv_mikroservisa = 2;
+    string resurs = 3;
+    enum TipAkcije {
+        NEPOZNATTIP = 0;
+        CREATE = 1;
+        DELETE = 2;
+        GET = 3;
+        UPDATE = 4;
+    }
+    TipAkcije tip_akcije = 4;
+    enum TipOdgovoraNaAkciju {
+        NEPOZNATODGOVOR = 0;
+        USPJEH = 1;
+        GRESKA = 2;
+    }
+    TipOdgovoraNaAkciju tip_odgovora_na_akciju = 5;
+}
+
+message ActionResponse {
+    string poruka = 1;
+}
+
+service SystemEventsService {
+    rpc registrujAkciju(ActionRequest) returns (ActionResponse);
+}

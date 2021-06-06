@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: pregledi-kartoni
+  cloud:
+    config:
+      uri: http://localhost:8888
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pregledi_i_kartoni
+    username: postgres
+    password: root
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    refresh:
+      enabled: true
+
+server:
+  port: 8082
+
+app:
+  jwtSecret: ZWRvLXRlbnNlaQ==
+
+rabbitname: localhost

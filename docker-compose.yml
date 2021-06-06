@@ -1,0 +1,256 @@
+version: '3.8'
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  system-events-db:
+    image: 'postgres:12'
+    container_name: system-events-db
+    environment:
+      - POSTGRES_DB=systemevents
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    depends_on:
+      - rabbitmq
+
+  api-gateway-db:
+    image: 'postgres:12'
+    container_name: api-gateway-db
+    environment:
+      - POSTGRES_DB=moj_doktor_user_management
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    depends_on:
+      - rabbitmq
+
+  termini-db:
+    image: 'postgres:12'
+    container_name: termini-db
+    environment:
+      - POSTGRES_DB=moj_doktor_termini
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    depends_on:
+      - rabbitmq
+
+  doktor-detalji-db:
+    image: 'postgres:12'
+    container_name: doktor-detalji-db
+    environment:
+      - POSTGRES_DB=moj_doktor_doktor_detalji
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    depends_on:
+      - rabbitmq
+
+  pregledi-kartoni-db:
+    image: 'postgres:12'
+    container_name: pregledi-kartoni-db
+    environment:
+      - POSTGRES_DB=pregledi_i_kartoni
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    depends_on:
+      - rabbitmq
+
+  chat-db:
+    image: 'postgres:12'
+    container_name: chat-db
+    environment:
+      - POSTGRES_DB=moj_doktor_chat
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    depends_on:
+      - rabbitmq
+
+  discovery:
+    image: moj-doktor-eureka-server
+    build:
+      context: .
+    container_name: discovery
+    depends_on:
+      - rabbitmq
+    expose:
+      - 8761
+    ports:
+      - 8761:8761
+
+  config:
+    image: moj-doktor-config-server
+    build:
+      context: .
+    container_name: config
+    depends_on:
+      - rabbitmq
+      - discovery
+    environment:
+      - CONFIG_REPO_URI=https://github.com/dbrdar1/moj-doktor-config-repo
+      - CONFIG_REPO_USERNAME=dbrdar1
+      - CONFIG_REPO_ACCESS_TOKEN=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
+      - CONFIG_REPO_DEFAULT_LABEL=main
+    expose:
+      - 8888
+    ports:
+      - 8888:8888
+
+  system-events:
+    image: moj-doktor-system-events
+    container_name: system-events
+    build:
+      context: .
+    depends_on:
+      - system-events-db
+      - config
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://system-events-db:5432/systemevents
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+    expose:
+      - 8867
+    ports:
+      - 8867:8867
+
+  api-gateway:
+    image: moj-doktor-api-gateway
+    build:
+      context: .
+    container_name: api-gateway
+    depends_on:
+      - api-gateway-db
+      - discovery
+      - config
+      - system-events
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://api-gateway-db:5432/moj_doktor_chat
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
+      - spring.cloud.config.uri=http://config:8888
+      - rabbitname=rabbitmq
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+
+  termini:
+    image: moj-doktor-termini
+    build:
+      context: .
+    container_name: termini
+    depends_on:
+      - termini-db
+      - api-gateway
+      - discovery
+      - config
+      - system-events
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://termini-db:5432/moj_doktor_termini
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
+      - spring.cloud.config.uri=http://config:8888
+      - rabbitname=rabbitmq
+    expose:
+      - 8083
+    ports:
+      - 8083:8083
+
+  doktor-detalji:
+    image: moj-doktor-doktor-detalji
+    build:
+      context: .
+    container_name: doktor-detalji
+    depends_on:
+      - doktor-detalji-db
+      - api-gateway
+      - discovery
+      - config
+      - system-events
+      - termini
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://doktor-detalji-db:5432/moj_doktor_doktor_detalji
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
+      - spring.cloud.config.uri=http://config:8888
+      - rabbitname=rabbitmq
+    expose:
+      - 8081
+    ports:
+      - 8081:8081
+
+  pregledi-kartoni:
+    image: moj-doktor-pregledi-kartoni
+    build:
+      context: .
+    container_name: pregledi-kartoni
+    depends_on:
+      - pregledi-kartoni-db
+      - api-gateway
+      - discovery
+      - config
+      - system-events
+      - termini
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://pregledi-kartoni-db:5432/pregledi_i_kartoni
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
+      - spring.cloud.config.uri=http://config:8888
+      - rabbitname=rabbitmq
+    expose:
+      - 8082
+    ports:
+      - 8082:8082
+
+  chat:
+    image: moj-doktor-chat
+    build:
+      context: .
+    container_name: chat
+    depends_on:
+      - chat-db
+      - api-gateway
+      - discovery
+      - config
+      - system-events
+      - termini
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://chat-db:5432/moj_doktor_chat
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+      - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
+      - spring.cloud.config.uri=http://config:8888
+      - rabbitname=rabbitmq
+    expose:
+      - 8084
+    ports:
+      - 8084:8084
+
+  frontend:
+    image: moj-doktor-frontend
+    build:
+      context: .
+    container_name: frontend
+    depends_on:
+      - api-gateway
+      - termini
+      - doktor-detalji
+      - pregledi-kartoni
+      - chat
+    expose:
+      - 3000
+    ports:
+      - 3000:3000

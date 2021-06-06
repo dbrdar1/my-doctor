@@ -1,0 +1,17 @@
+.pacijenti-doktori {
+  background-color: white;
+  box-shadow: 0 5px 20px rgb(67, 75, 71);
+  vertical-align: middle;
+  text-align: center;
+  min-height: 600px;
+  width: 80%;
+  margin: 0px;
+  padding: 60px;
+  margin-left: 10%;
+}
+
+.carousel-container {
+  width: 80%;
+  margin: 50px auto auto auto;
+  height: 500px;
+}

@@ -1,0 +1,18 @@
+.pretraga{
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid rgb(128, 126, 126);
+    color:rgb(128, 126, 126);
+    background-color: transparent;
+    font-size: 15px;
+    padding: 8px 8px 8px 10px;
+    margin-bottom: 20px;
+    width: 300px;
+  }
+
+.pretraga:hover{
+    border-bottom: 2px solid #1892ff;
+    color: #1892ff;
+
+}

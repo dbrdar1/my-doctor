@@ -1,0 +1,60 @@
+.elementi {
+  margin: auto;
+  align-content: center;
+  display: inline-block;
+}
+.input {
+  display: block;
+  border: 1px solid #001529;
+  border-radius: 10px;
+  padding: 8px 40px 8px 40px;
+  color: #001529;
+  font-size: 12px;
+  width: 250px;
+  margin-bottom: 30px;
+}
+
+.chbox {
+  color: #001529;
+  font-size: 14px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-bottom: 30px;
+}
+
+.zaboravljena-sifra {
+  color: rgba(95, 112, 160, 0.712);
+  border: none;
+  font-size: 14px;
+  padding: 10px;
+  background-color: transparent;
+  margin-bottom: 30px;
+}
+
+.zaboravljena-sifra:hover {
+  cursor: pointer;
+  color: #001529;
+  font-size: 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #001529;
+}
+
+.lijeva-forma {
+  display: inline;
+  float: left;
+  margin-right: 20px;
+}
+
+.desna-forma {
+  display: inline;
+  float: right;
+}
+
+@media only screen and (max-width: 1500px) {
+  .lijeva-forma {
+    float: none;
+  }
+  .desna-forma {
+    float: none;
+  }
+}

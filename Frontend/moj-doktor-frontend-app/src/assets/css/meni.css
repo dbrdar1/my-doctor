@@ -1,0 +1,22 @@
+.naslov{
+    height: 60px;
+    background-image: url("https://www.pngkit.com/png/full/12-122320_caixas-miniso.png?fbclid=IwAR22Akozb_5hyAW-nw1UbUxa-gNGdLTXLJprhl4rfblWNUaet-Ey1CK1Wm4");
+    background-size: 80%;
+    padding: 5px;
+    text-align: center;
+}
+.naslov h2{
+    font-size: 14px;
+    font-family: 'Montserrat';
+    font-style: italic;
+    color: white;
+    padding-top: 15px;
+}
+
+.side-meni{
+    background-color: #00a59c;
+}
+
+.cijela-stranica{
+    width: 100%;
+}

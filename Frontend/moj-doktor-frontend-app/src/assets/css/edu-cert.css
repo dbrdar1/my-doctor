@@ -1,0 +1,30 @@
+.unos {
+    border-radius: 30px;
+    width: 90%;
+    font-size: 14px;
+    background-color: rgba(204, 204, 204, 0.356);
+    padding: 30px;
+    margin-bottom: 10px;
+}
+
+.unos>h2{
+    font-size: 14px;
+    margin-bottom: 5px;
+    padding: none;
+    text-align: left;
+    color: #001529;
+}
+
+.unos>h2:not(:first-child){
+    margin-top: 5px;
+}
+
+.unos input{
+    padding: 15px;
+    width: 100%;
+    height: 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+    color: #001529;
+}

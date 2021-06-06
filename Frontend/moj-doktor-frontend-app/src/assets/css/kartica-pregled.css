@@ -1,0 +1,29 @@
+.kartica-pregled{
+    background-color: white;
+    box-shadow: 0 5px 20px rgb(67, 75, 71);
+    vertical-align: middle;
+    text-align: center;
+    min-height: 250px;
+    width: 250px;
+    margin: 0px;
+    padding: 15px;
+}
+
+.kartica-pregled h1{
+    font-family: 'Montserrat';
+    font-size: 16px;
+    padding: 5px;
+}
+
+.kartica-pregled h3{
+    font-size: 14px;
+    padding: 5px;
+}
+
+.prvi-tekst{
+    border-top: 2px solid #00a59c;
+}
+
+.zadnji-tekst{
+    border-bottom: 2px solid #00a59c;
+}

@@ -1,0 +1,119 @@
+.licni-podaci {
+  background-color: white;
+  box-shadow: 0 5px 20px rgb(67, 75, 71);
+  vertical-align: middle;
+  min-height: 300px;
+  width: 300px;
+  margin: 0px;
+  padding: 30px;
+  width: 80%;
+  margin-left: 10%;
+  display: inline;
+  font-family: "Montserrat";
+  color: rgb(83, 104, 98);
+}
+
+.licni-podaci h2 {
+  font-size: 16px;
+  padding: 2px;
+}
+
+.licni-podaci textarea {
+  font-size: 13px;
+  padding: 0px 15px 5px 5px;
+  border-radius: 10px;
+  border: 1px solid #00a59c;
+  width: 100%;
+}
+
+.drugi{
+    margin: 15px 0px 15px 0px;
+    padding-top: 10px;
+    padding-left: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 2px solid #00a59c;
+    border-top: 2px solid #00a59c;
+}
+
+.drugi label{
+    font-size: 18px;
+    width: 200px;
+    display: inline-block;
+}
+
+.prvi label{
+    font-size: 18px;
+    width: 300px;
+    display: inline-block;
+}
+
+.prvi .lijevi{
+    display: inline;
+    float: left;
+    width: 47%;
+    margin-left: 10px;
+}
+
+.prvi .desni{
+    display: inline;
+    float: right;
+    width: 47%;
+}
+
+.pocisti{
+    clear: both;
+}
+
+.carousel{
+    margin: 30px 0px 0px 10%;
+    width: 80%;
+    padding-bottom: 0px;
+    box-sizing:border-box;
+}
+
+.dugmad{
+    margin-top: 20px;
+    width: 80%;
+    margin-left: 10%;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.plavo{
+    background-color: #001529;
+    margin-left: 60px;
+}
+
+.dugmad button:hover{
+    cursor: pointer;
+}
+
+.pacijent-bottom{
+    margin-bottom: 50px;
+}
+
+.prvi input{
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    border-bottom: 1px solid #00a59c;
+    padding: 5px;
+    background-color: rgba(130, 167, 148, 0.034);
+    font-size: 16px;
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+.drugi input{
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    border-bottom: 2px solid #00a59c;
+    padding: 5px;
+    background-color: rgba(130, 167, 148, 0.034);
+    font-size: 16px;
+    width: 120px;
+    display: inline-block;
+    margin-bottom: 20px;
+}

@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: chat
+  cloud:
+    config:
+      uri: http://localhost:8888
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/moj_doktor_chat
+    username: postgres
+    password: root
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    refresh:
+      enabled: true
+
+server:
+  port: 8084
+
+app:
+  jwtSecret: ZWRvLXRlbnNlaQ==
+
+rabbitname: localhost

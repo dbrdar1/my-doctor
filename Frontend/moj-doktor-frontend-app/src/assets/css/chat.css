@@ -1,0 +1,43 @@
+.chat {
+  width: 80%;
+  margin-left: 10%;
+  height: 500px;
+  max-height: 500px;
+  position:relative;
+  background-color: white;
+  box-shadow: 0 5px 20px rgb(67, 75, 71);
+}
+
+.chat-prozor{
+  overflow-y: auto;
+  width: 100%;
+  height: 88%;
+  padding: 20px 50px 20px 50px;
+}
+.chat-prozor::-webkit-scrollbar {
+  width: 10px;
+}
+.chat-prozor::-webkit-scrollbar-track {
+  width: 5px;
+  height: 8px;
+  background-color: #ccc;
+}
+
+.chat-prozor::-webkit-scrollbar-thumb {
+  background: linear-gradient(#001529,#0084ff);
+border-radius: 5px;
+}
+.tipkanje{
+  position:absolute;
+  bottom:4%;
+  left: 3%;
+  width: 85%;
+  font-size: 16px;
+  border-radius: 12px;
+}
+
+.sendButton {
+  position: absolute;
+  bottom: 4.25%;
+  right: 5%;
+}

@@ -1,0 +1,11 @@
+server:
+  port: 8888
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${CONFIG_REPO_URI}
+          username: ${CONFIG_REPO_USERNAME}
+          password: ${CONFIG_REPO_ACCESS_TOKEN}
+          default-label: ${CONFIG_REPO_DEFAULT_LABEL}

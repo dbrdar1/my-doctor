@@ -1,0 +1,93 @@
+.profilna{
+    width: 150px;
+    height: 150px;
+    border: 4px solid #ccc;
+    border-radius: 50%;
+}
+
+.kartica-cv {
+    background-color: white;
+    box-shadow: 0 5px 20px rgb(67, 75, 71);
+    vertical-align: middle;
+    min-height: 300px;
+    min-width: 520px;
+    width: 70%;
+    margin: 0px;
+    padding: 15px 15px 15px 30px;
+    width: 70%;
+    margin-left: 10%;
+    display: inline;
+    margin-bottom: 30px;
+  }
+
+.osnovni-podaci{
+    color: rgb(83, 104, 98);
+    display: inline;
+    text-align: left;
+    margin: 50px 30px 30px 20px;
+    float: left;
+    font-family: 'Montserrat';
+    width: 30%;
+}
+
+.osnovni-podaci h2{
+    margin-top: 15px;
+    margin-left: 15px;
+    font-size: 18px;
+}
+
+.osnovni-podaci h3{
+    margin-top: 60px;
+    margin-left: 20px;
+    font-size: 20px;
+}
+.pocisti{
+    clear: both;
+}
+
+.cv-detalji{
+    width: 55%;
+    display: inline;
+    text-align: left;
+    margin: auto;
+    float: left;
+    margin-top: 50px;
+}
+
+.cv-detalji>h2{
+    background-color:#00a59c;
+    color: white;
+    width: 300px;
+    font-size: 18px;
+    padding: 5px 10px 5px 10px;
+}
+
+.cv-detalji p{
+    font-size: 14px;
+    color: rgb(83, 104, 98);
+    margin: 20px 0px 20px 0px;
+}
+
+.ocjena-star{
+    margin-left: 20px;
+}
+
+.cv-detalji textarea{
+    border: 2px solid #ccc;
+    background-color: whitesmoke;
+    color:rgb(83, 104, 98);
+    font-size: 16px;
+    margin: 10px 0px 10px 0px;
+    width: 90%;
+}
+
+@media only screen and (max-width: 900px) {
+    .profilna{
+        height: 50px;
+        width: 50px;
+    }
+
+    .osnovni-podaci h2{
+        font-size: 13px;
+    }
+}

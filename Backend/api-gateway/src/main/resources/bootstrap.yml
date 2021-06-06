@@ -1,0 +1,87 @@
+spring:
+  profiles:
+    active: default
+  application:
+    name: zuul-service
+  cloud:
+    config:
+      uri: http://localhost:8888
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/moj_doktor_user_management
+    username: postgres
+    password: root
+  mail:
+    default-encoding: UTF-8
+    host: smtp.gmail.com
+    username: MojDoktorWebApp@gmail.com
+    password: MojDoktorWebApp123
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    protocol: smtp
+    test-connection: false
+
+app:
+  jwtSecret: ZWRvLXRlbnNlaQ==
+  jwtExpirationInMs: 604800000
+
+zuul:
+  #Service will be mapped under the /api URI
+  host:
+    connect-timeout-millis: 500000000
+    socket-timeout-millis: 500000000
+  routes:
+    doktor-detalji:
+      path: /doktor-detalji/**
+      url: http://localhost:8081
+      serviceId: DOKTOR-DETALJI
+      stripPrefix: true
+    pregledi-kartoni:
+      path: /pregledi-kartoni/**
+      url: http://localhost:8082
+      serviceId: PREGLEDI-KARTONI
+      stripPrefix: true
+    termini:
+      path: /termini/**
+      url: http://localhost:8083
+      serviceId: TERMINI
+      stripPrefix: true
+    chat:
+      path: /chat/**
+      url: http://localhost:8084
+      serviceId: CHAT
+      stripPrefix: true
+
+  ignored-services: "*"
+  sensitive-headers: Cookie,Set-Cookie
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    preferIpAddress: true
+
+management:
+  endpoint:
+    refresh:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+server:
+  port: 8080
+
+rabbitname: localhost
