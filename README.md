@@ -21,6 +21,9 @@ MojDoktor web aplikacija služi za komunikaciju između pacijenta i doktora. Osn
 ### Arhitektura
 ![arhitektura](https://github.com/dbrdar1/moj-doktor/blob/684f41cb7b2f99491a1e178abbcf64b6f86b5110/AdditionalFiles/Dijagram%201.png)
 
+### Upute za pokretanje aplikacije
+Upute za pokretanje aplikacije nalaze se u fajlu "docker-upute.txt".
+
 </br>
 
 ***
@@ -48,3 +51,6 @@ MyDoctor web application is used for communication between a patient and a docto
 
 ### Arhitecture
 ![arhitecture](https://github.com/dbrdar1/moj-doktor/blob/684f41cb7b2f99491a1e178abbcf64b6f86b5110/AdditionalFiles/Dijagram%202.png)
+
+### Instructions for launching the application
+Instructions for launching the application are in the file named "docker-upute.txt".

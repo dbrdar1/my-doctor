@@ -1,0 +1,25 @@
+Upute za pokretanje aplikacije korištenjem Docker-a (dakle, potrebno je imati instaliran Docker):
+
+
+Iz root foldera (repozitorija, dakle iz foldera "moj-doktor") pokrenuti niz sljedećih komandi:
+
+docker build -t moj-doktor-system-events ./Backend/system-events-server
+docker build -t moj-doktor-eureka-server ./Backend/service-discovery-server
+docker build -t moj-doktor-config-server ./Backend/config-server
+docker build -t moj-doktor-api-gateway ./Backend/api-gateway
+docker build -t moj-doktor-termini ./Backend/termini-microservice
+docker build -t moj-doktor-doktor-detalji ./Backend/doktor-detalji-microservice
+docker build -t moj-doktor-pregledi-kartoni ./Backend/pregledi-kartoni-microservice
+docker build -t moj-doktor-chat ./Backend/chat-microservice
+docker build -t moj-doktor-frontend ./Frontend/moj-doktor-frontend-app
+
+
+Zatim pokrenuti sljedeću komandu koja pokreće sve zajedno:
+
+docker-compose up
+
+
+(Ukoliko se pokreće na Linux-u, moguće da će trebati dodati "sudo" ispred docker komandi.)
+
+
+Zatim u web browseru otvoriti localhost:3000 i aplikacija je spremna za korištenje.

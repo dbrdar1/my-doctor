@@ -7,5 +7,7 @@ RUN mvn -f /home/app/pom.xml package -DskipTests
 # Package stage
 FROM openjdk:8-jdk-alpine
 COPY --from=build /home/app/target/config_server-0.0.1-SNAPSHOT.jar app.jar
+COPY wait-for-it.sh /usr/wait-for-it.sh
+RUN chmod +x /usr/wait-for-it.sh
 EXPOSE 8888
 ENTRYPOINT ["java","-jar","/app.jar"]

@@ -31,6 +31,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Queue fiktivni() {
+        return new Queue("fiktivni");
+    }
+
+    @Bean
     public NoviKorisnikMessageReceiver receiver() {
         return new NoviKorisnikMessageReceiver();
     }

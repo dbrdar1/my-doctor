@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.3'
 
 services:
 
@@ -8,6 +8,7 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    restart: on-failure
 
   system-events-db:
     image: 'postgres:12'
@@ -16,8 +17,7 @@ services:
       - POSTGRES_DB=systemevents
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
-    depends_on:
-      - rabbitmq
+    restart: on-failure
 
   api-gateway-db:
     image: 'postgres:12'
@@ -26,8 +26,7 @@ services:
       - POSTGRES_DB=moj_doktor_user_management
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
-    depends_on:
-      - rabbitmq
+    restart: on-failure
 
   termini-db:
     image: 'postgres:12'
@@ -36,8 +35,7 @@ services:
       - POSTGRES_DB=moj_doktor_termini
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
-    depends_on:
-      - rabbitmq
+    restart: on-failure
 
   doktor-detalji-db:
     image: 'postgres:12'
@@ -46,18 +44,16 @@ services:
       - POSTGRES_DB=moj_doktor_doktor_detalji
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
-    depends_on:
-      - rabbitmq
+    restart: on-failure
 
   pregledi-kartoni-db:
     image: 'postgres:12'
     container_name: pregledi-kartoni-db
     environment:
-      - POSTGRES_DB=pregledi_i_kartoni
+      - POSTGRES_DB=moj_doktor_pregledi_kartoni
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
-    depends_on:
-      - rabbitmq
+    restart: on-failure
 
   chat-db:
     image: 'postgres:12'
@@ -66,20 +62,18 @@ services:
       - POSTGRES_DB=moj_doktor_chat
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=root
-    depends_on:
-      - rabbitmq
+    restart: on-failure
 
   discovery:
     image: moj-doktor-eureka-server
     build:
       context: .
     container_name: discovery
-    depends_on:
-      - rabbitmq
     expose:
       - 8761
     ports:
       - 8761:8761
+    restart: on-failure
 
   config:
     image: moj-doktor-config-server
@@ -87,7 +81,6 @@ services:
       context: .
     container_name: config
     depends_on:
-      - rabbitmq
       - discovery
     environment:
       - CONFIG_REPO_URI=https://github.com/dbrdar1/moj-doktor-config-repo
@@ -98,6 +91,7 @@ services:
       - 8888
     ports:
       - 8888:8888
+    restart: on-failure
 
   system-events:
     image: moj-doktor-system-events
@@ -106,7 +100,6 @@ services:
       context: .
     depends_on:
       - system-events-db
-      - config
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://system-events-db:5432/systemevents
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -116,6 +109,8 @@ services:
       - 8867
     ports:
       - 8867:8867
+    restart: on-failure
+    command: ["/usr/wait-for-it.sh", "--timeout=0", "system-events-db:5432"]
 
   api-gateway:
     image: moj-doktor-api-gateway
@@ -123,22 +118,26 @@ services:
       context: .
     container_name: api-gateway
     depends_on:
+      - rabbitmq
       - api-gateway-db
       - discovery
-      - config
-      - system-events
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://api-gateway-db:5432/moj_doktor_chat
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://api-gateway-db:5432/moj_doktor_user_management
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
       - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
-      - spring.cloud.config.uri=http://config:8888
       - rabbitname=rabbitmq
+      - zuul.routes.doktor-detalji.url=http://doktor-detalji:8081
+      - zuul.routes.pregledi-kartoni.url=http://pregledi-kartoni:8082
+      - zuul.routes.termini.url=http://termini:8083
+      - zuul.routes.chat.url=http://chat:8084
     expose:
       - 8080
     ports:
       - 8080:8080
+    restart: on-failure
+    command: sh -c "/usr/wait-for-it.sh rabbitmq:5672 rabbitmq:15672 api-gateway-db:5432 discovery:8761"
 
   termini:
     image: moj-doktor-termini
@@ -146,23 +145,23 @@ services:
       context: .
     container_name: termini
     depends_on:
+      - rabbitmq
       - termini-db
       - api-gateway
       - discovery
-      - config
-      - system-events
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://termini-db:5432/moj_doktor_termini
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
       - eureka.client.serviceUrl.defaultZone=http://discovery:8761/eureka/
-      - spring.cloud.config.uri=http://config:8888
       - rabbitname=rabbitmq
     expose:
       - 8083
     ports:
       - 8083:8083
+    restart: on-failure
+    command: ["/usr/wait-for-it.sh", "--timeout=0", "rabbitmq:5672", "rabbitmq:15672", "termini-db:5432", "api-gateway:8080", "discovery:8761"]
 
   doktor-detalji:
     image: moj-doktor-doktor-detalji
@@ -170,12 +169,11 @@ services:
       context: .
     container_name: doktor-detalji
     depends_on:
+      - rabbitmq
       - doktor-detalji-db
       - api-gateway
-      - discovery
-      - config
-      - system-events
       - termini
+      - discovery
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://doktor-detalji-db:5432/moj_doktor_doktor_detalji
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -188,6 +186,8 @@ services:
       - 8081
     ports:
       - 8081:8081
+    restart: on-failure
+    command: ["/usr/wait-for-it.sh", "--timeout=0", "rabbitmq:5672", "rabbitmq:15672", "doktor-detalji-db:5432", "api-gateway:8080", "termini:8083", "discovery:8761"]
 
   pregledi-kartoni:
     image: moj-doktor-pregledi-kartoni
@@ -195,14 +195,13 @@ services:
       context: .
     container_name: pregledi-kartoni
     depends_on:
+      - rabbitmq
       - pregledi-kartoni-db
       - api-gateway
-      - discovery
-      - config
-      - system-events
       - termini
+      - discovery
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://pregledi-kartoni-db:5432/pregledi_i_kartoni
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://pregledi-kartoni-db:5432/moj_doktor_pregledi_kartoni
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create
@@ -213,6 +212,8 @@ services:
       - 8082
     ports:
       - 8082:8082
+    restart: on-failure
+    command: ["/usr/wait-for-it.sh", "--timeout=0", "rabbitmq:5672", "rabbitmq:15672", "pregledi-kartoni-db:5432", "api-gateway:8080", "termini:8083", "discovery:8761"]
 
   chat:
     image: moj-doktor-chat
@@ -220,12 +221,11 @@ services:
       context: .
     container_name: chat
     depends_on:
+      - rabbitmq
       - chat-db
       - api-gateway
-      - discovery
-      - config
-      - system-events
       - termini
+      - discovery
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://chat-db:5432/moj_doktor_chat
       - SPRING_DATASOURCE_USERNAME=postgres
@@ -238,6 +238,8 @@ services:
       - 8084
     ports:
       - 8084:8084
+    restart: on-failure
+    command: ["/usr/wait-for-it.sh", "--timeout=0", "rabbitmq:5672", "rabbitmq:15672", "chat-db:5432", "api-gateway:8080", "termini:8083", "discovery:8761"]
 
   frontend:
     image: moj-doktor-frontend
@@ -247,10 +249,8 @@ services:
     depends_on:
       - api-gateway
       - termini
-      - doktor-detalji
-      - pregledi-kartoni
-      - chat
     expose:
       - 3000
     ports:
       - 3000:3000
+    restart: on-failure

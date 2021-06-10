@@ -1,7 +1,7 @@
-FROM node:14.17.0-alpine
-WORKDIR /app
-COPY package.json ./
+FROM node:lts
+WORKDIR /frontend
+COPY ./package.json .
 RUN npm install
-COPY . ./
+COPY . .
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD npm start

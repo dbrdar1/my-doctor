@@ -21,22 +21,27 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Queue queue1() {
+    public Queue korisnikQueue1() {
         return new Queue("korisnikQueue1");
     }
 
     @Bean
-    public Queue queue2() {
+    public Queue korisnikQueue2() {
         return new Queue("korisnikQueue2");
     }
 
     @Bean
-    public Queue queue3() {
+    public Queue korisnikQueue3() {
         return new Queue("korisnikQueue3");
     }
 
     @Bean
-    public Queue queue4() {
+    public Queue korisnikQueue4() {
         return new Queue("korisnikQueue4");
+    }
+
+    @Bean
+    public Receiver receiver() {
+        return new Receiver();
     }
 }

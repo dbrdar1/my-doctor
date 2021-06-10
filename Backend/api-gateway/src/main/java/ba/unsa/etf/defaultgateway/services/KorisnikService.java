@@ -13,7 +13,7 @@ import ba.unsa.etf.defaultgateway.responses.LoginResponse;
 import ba.unsa.etf.defaultgateway.responses.Response;
 import ba.unsa.etf.defaultgateway.security.JwtTokenProvider;
 import freemarker.template.TemplateException;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Service
 public class KorisnikService {
 
@@ -45,10 +45,10 @@ public class KorisnikService {
     private final MailService mailService;
 
     private final RabbitTemplate template;
-    private final Queue queue1;
-    private final Queue queue2;
-    private final Queue queue3;
-    private final Queue queue4;
+    private final Queue korisnikQueue1;
+    private final Queue korisnikQueue2;
+    private final Queue korisnikQueue3;
+    private final Queue korisnikQueue4;
 
     public String pripremiUloge() {
         KorisnickaUloga doktor = korisnickaUlogaRepository.findByNazivKorisnickeUloge(NazivKorisnickeUloge.ROLE_DOKTOR);
@@ -381,14 +381,14 @@ public class KorisnikService {
         paket.put("akcija", response.getAkcija());
 
         String message = paket.toString();
-        this.template.convertAndSend(queue1.getName(), message);
-        this.template.convertAndSend(queue2.getName(), message);
-        this.template.convertAndSend(queue3.getName(), message);
-        this.template.convertAndSend(queue4.getName(), message);
+        this.template.convertAndSend(korisnikQueue1.getName(), message);
+        this.template.convertAndSend(korisnikQueue2.getName(), message);
+        this.template.convertAndSend(korisnikQueue3.getName(), message);
+        this.template.convertAndSend(korisnikQueue4.getName(), message);
 
-        System.out.println("Sent: " + queue1.getName() + message);
-        System.out.println("Sent: " + queue2.getName() + message);
-        System.out.println("Sent: " + queue3.getName() + message);
-        System.out.println("Sent: " + queue4.getName() + message);
+        System.out.println("Sent: " + korisnikQueue1.getName() + message);
+        System.out.println("Sent: " + korisnikQueue2.getName() + message);
+        System.out.println("Sent: " + korisnikQueue3.getName() + message);
+        System.out.println("Sent: " + korisnikQueue4.getName() + message);
     }
 }
